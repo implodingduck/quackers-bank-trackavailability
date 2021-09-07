@@ -46,6 +46,7 @@ namespace qbtrackavailability
                 Success = false, 
             }; 
             log.LogInformation($"AvailabilityTelemetry has been set");
+            
             availability.Context.Operation.ParentId = Activity.Current.SpanId.ToString();
             log.LogInformation($"ParentId={availability.Context.Operation.ParentId}");
             availability.Context.Operation.Id = Activity.Current.RootId; 
