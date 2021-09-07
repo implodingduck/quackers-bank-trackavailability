@@ -56,7 +56,8 @@ namespace qbtrackavailability
             log.LogInformation($"StopWatch has started");
             try 
             { 
-                using (var activity = new Activity("AvailabilityContext")) 
+                var activity = new Activity("AvailabilityContext");
+                if (activity != null)
                 { 
                     activity.Start(); 
                     availability.Id = Activity.Current.SpanId.ToString(); 
