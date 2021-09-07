@@ -32,8 +32,9 @@ namespace qbtrackavailability
                 telemetryConfiguration.TelemetryChannel = new InMemoryChannel(); 
                 telemetryClient = new TelemetryClient(telemetryConfiguration); 
             } 
-
+            log.LogInformation($"Telemetry Client has been initialized");
             string testName = executionContext.FunctionName; 
+            log.LogInformation($"testName={testName}");
             string location = Environment.GetEnvironmentVariable("REGION_NAME"); 
             var availability = new AvailabilityTelemetry 
             { 
@@ -48,7 +49,7 @@ namespace qbtrackavailability
             availability.Context.Operation.Id = Activity.Current.RootId; 
             var stopwatch = new Stopwatch(); 
             stopwatch.Start(); 
-
+            log.LogInformation($"StopWatch has started");
             try 
             { 
                 using (var activity = new Activity("AvailabilityContext")) 
@@ -70,6 +71,7 @@ namespace qbtrackavailability
             finally 
             { 
                 stopwatch.Stop(); 
+                log.LogInformation($"StopWatch has stopped");
                 availability.Duration = stopwatch.Elapsed; 
                 availability.Timestamp = DateTimeOffset.UtcNow; 
                 telemetryClient.TrackAvailability(availability); 
@@ -79,6 +81,7 @@ namespace qbtrackavailability
 
         public async static Task RunAvailabilityTestAsync(ILogger log) 
         { 
+            log.LogInformation($"Attempting to run Availability Test");
             using (var httpClient = new HttpClient()) 
             { 
                 // TODO: Replace with your business logic 
