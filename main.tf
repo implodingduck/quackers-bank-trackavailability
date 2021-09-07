@@ -54,7 +54,7 @@ module "func" {
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.appinsights.connection_string
     "APPINSIGHTS_INSTRUMENTATIONKEY" = data.azurerm_application_insights.appinsights.instrumentation_key
   }
-  identity = [
+  app_identity = [
       {
           type = "SystemAssigned"
       }
