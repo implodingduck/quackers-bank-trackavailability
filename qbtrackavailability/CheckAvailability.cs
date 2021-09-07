@@ -35,7 +35,8 @@ namespace qbtrackavailability
             log.LogInformation($"Telemetry Client has been initialized");
             string testName = executionContext.FunctionName; 
             log.LogInformation($"testName={testName}");
-            string location = Environment.GetEnvironmentVariable("REGION_NAME"); 
+            string location = Environment.GetEnvironmentVariable("REGION_NAME");
+            log.LogInformation($"location={location}");
             var availability = new AvailabilityTelemetry 
             { 
                 Name = testName, 
@@ -44,9 +45,11 @@ namespace qbtrackavailability
 
                 Success = false, 
             }; 
-
-            availability.Context.Operation.ParentId = Activity.Current.SpanId.ToString(); 
+            log.LogInformation($"AvailabilityTelemetry has been set");
+            availability.Context.Operation.ParentId = Activity.Current.SpanId.ToString();
+            log.LogInformation($"ParentId={availability.Context.Operation.ParentId}");
             availability.Context.Operation.Id = Activity.Current.RootId; 
+            log.LogInformation($"OperationId={availability.Context.Operation.Id}");
             var stopwatch = new Stopwatch(); 
             stopwatch.Start(); 
             log.LogInformation($"StopWatch has started");
