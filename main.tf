@@ -48,9 +48,9 @@ module "func" {
   func_name = "${local.func_name}"
   resource_group_name = azurerm_resource_group.rg.name
   resource_group_location = azurerm_resource_group.rg.location
-  working_dir = "functions"
+  working_dir = "qbtrackavailability"
   app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME" = "qbtrackavailability"
+    "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.appinsights.connection_string
     "APPINSIGHTS_INSTRUMENTATIONKEY" = data.azurerm_application_insights.appinsights.instrumentation_key
   }
