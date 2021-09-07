@@ -57,6 +57,7 @@ module "func" {
   app_identity = [
       {
           type = "SystemAssigned"
+          identity_ids = null
       }
   ]
 }
