@@ -79,6 +79,7 @@ stages:
             export ARM_CLIENT_ID=$servicePrincipalId
             export ARM_CLIENT_SECRET=$servicePrincipalKey
             export ARM_TENANT_ID=$tenantId
+            mv qbtrackavailability/local.settings.json.sample qbtrackavailability/local.settings.json
             terraform apply -auto-approve theplan
         env:
           TF_VAR_subscription_id: $(subscription-id)
