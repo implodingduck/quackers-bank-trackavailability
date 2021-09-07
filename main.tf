@@ -53,6 +53,7 @@ module "func" {
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.appinsights.connection_string
     "APPINSIGHTS_INSTRUMENTATIONKEY" = data.azurerm_application_insights.appinsights.instrumentation_key
+    "REGION_NAME" = azurerm_resource_group.rg.location
   }
   app_identity = [
       {
