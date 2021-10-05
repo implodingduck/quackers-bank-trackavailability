@@ -128,18 +128,18 @@ resource "azurerm_key_vault_access_policy" "sp" {
 }
 
 
-resource "azurerm_key_vault_access_policy" "as" {
-  key_vault_id = azurerm_key_vault.kv.id
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  object_id = module.func.identity_principal_id
+# resource "azurerm_key_vault_access_policy" "as" {
+#   key_vault_id = azurerm_key_vault.kv.id
+#   tenant_id = data.azurerm_client_config.current.tenant_id
+#   object_id = module.func.identity_principal_id
   
-  key_permissions = [
-    "get",
-  ]
+#   key_permissions = [
+#     "get",
+#   ]
 
-  secret_permissions = [
-    "get",
-    "list"
-  ]
+#   secret_permissions = [
+#     "get",
+#     "list"
+#   ]
   
-}
+# }
