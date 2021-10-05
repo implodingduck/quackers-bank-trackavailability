@@ -49,11 +49,16 @@ module "func" {
   resource_group_name = azurerm_resource_group.rg.name
   resource_group_location = azurerm_resource_group.rg.location
   working_dir = "qbtrackavailability"
+  publish = 0
+  linux_fx_version = "DOCKER|${azurerm_container_registry.test.login_server}/qbtrackavailability:latest"
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.appinsights.connection_string
     "APPINSIGHTS_INSTRUMENTATIONKEY" = data.azurerm_application_insights.appinsights.instrumentation_key
     "REGION_NAME" = azurerm_resource_group.rg.location
+    "DOCKER_REGISTRY_SERVER_URL" = azurerm_container_registry.test.login_server
+    "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.test.admin_username
+    "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.test.admin_password
   }
   app_identity = [
       {
