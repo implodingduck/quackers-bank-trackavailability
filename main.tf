@@ -59,6 +59,9 @@ module "func" {
     "DOCKER_REGISTRY_SERVER_URL" = azurerm_container_registry.test.login_server
     "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.test.admin_username
     "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.test.admin_password
+    "BASE_URL" = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=BASEURL)"
+    "TEST_EMAIL" = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=TESTUSER)"
+    "TEST_PASSWORD" = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=TESTPASSWORD)"
   }
   app_identity = [
       {
