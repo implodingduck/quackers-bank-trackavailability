@@ -50,7 +50,11 @@ module "func" {
   resource_group_location = azurerm_resource_group.rg.location
   working_dir = "qbtrackavailability"
   publish = 0
-  linux_fx_version = "DOCKER|${azurerm_container_registry.test.login_server}/qbtrackavailability:latest"
+  asp_kind = "elastic"
+  plan_tier = "ElasticPremium"
+  plan_size = "EP1"
+
+  linux_fx_version = "DOCKER|${azurerm_container_registry.test.login_server}/qbtrackavailability:${var.image_version}"
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.appinsights.connection_string

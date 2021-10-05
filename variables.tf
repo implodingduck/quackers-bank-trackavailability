@@ -28,3 +28,8 @@ variable "location" {
 variable "app_insights_name" {
   type = string
 }
+
+variable "image_version" {
+  type = string
+  default = "latest"
+}

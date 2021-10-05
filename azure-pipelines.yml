@@ -67,6 +67,7 @@ stages:
           TF_VAR_key: $(TF_VAR_key)
           TF_VAR_container_name: $(container-name)
           TF_VAR_app_insights_name: $(app_insights_name)
+          TF_VAR_image_version: $(Build.BuildNumber)
       - task: AzureCLI@2
         displayName: "Terraform Plan"
         inputs:
@@ -87,6 +88,7 @@ stages:
           TF_VAR_key: $(TF_VAR_key)
           TF_VAR_container_name: $(container-name)
           TF_VAR_app_insights_name: $(app_insights_name)
+          TF_VAR_image_version: $(Build.BuildNumber)
       - task: AzureCLI@2
         displayName: "Terraform Apply"
         inputs:
@@ -108,3 +110,4 @@ stages:
           TF_VAR_key: $(TF_VAR_key)
           TF_VAR_container_name: $(container-name)
           TF_VAR_app_insights_name: $(app_insights_name)
+          TF_VAR_image_version: $(Build.BuildNumber)
