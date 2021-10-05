@@ -31,7 +31,8 @@ stages:
           buildContext: ./qbtrackavailability
           Dockerfile: ./qbtrackavailability/Dockerfile
           command: buildAndPush
-          repository: acrqbtrackavailability
+          repository: qbtrackavailability
+          containerRegistry: acrqbtrackavailability
           tags: |
             latest
             $(Build.BuildNumber)
