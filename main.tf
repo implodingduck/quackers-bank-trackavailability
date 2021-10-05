@@ -57,8 +57,7 @@ module "func" {
   linux_fx_version = "DOCKER|${azurerm_container_registry.test.login_server}/qbtrackavailability:${var.image_version}"
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
-    #"APPLICATIONINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.appinsights.connection_string
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = data.azurerm_application_insights.appinsights.instrumentation_key
+    "AVAILABILITY_APPINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.appinsights.connection_string
     "REGION_NAME" = azurerm_resource_group.rg.location
     "DOCKER_REGISTRY_SERVER_URL" = azurerm_container_registry.test.login_server
     "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.test.admin_username

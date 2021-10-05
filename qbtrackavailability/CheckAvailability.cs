@@ -31,7 +31,7 @@ namespace qbtrackavailability
                 // Initializing a telemetry configuration for Application Insights based on connection string 
 
                 var telemetryConfiguration = new TelemetryConfiguration(); 
-                telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"); 
+                telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("AVAILABILITY_APPINSIGHTS_CONNECTION_STRING"); 
                 telemetryConfiguration.TelemetryChannel = new InMemoryChannel(); 
                 telemetryClient = new TelemetryClient(telemetryConfiguration); 
             } 
