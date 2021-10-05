@@ -29,7 +29,7 @@ stages:
         displayName: Build and Push Frontend
         inputs:
           buildContext: ./qbtrackavailability
-          Dockerfile: ./acrqbtrackavailability/Dockerfile
+          Dockerfile: ./qbtrackavailability/Dockerfile
           command: buildAndPush
           repository: acrqbtrackavailability
           tags: |
