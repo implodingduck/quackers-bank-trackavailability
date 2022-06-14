@@ -33,3 +33,7 @@ variable "image_version" {
   type = string
   default = "latest"
 }
+
+variable "gh_repo" {
+  type = string
+}

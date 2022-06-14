@@ -22,6 +22,11 @@ provider "azurerm" {
 
 locals {
   func_name = "qbavail${random_string.unique.result}"
+  gh_repo = replace(var.gh_repo, "implodingduck/", "")
+  tags = {
+    "managed_by" = "terraform"
+    "repo"       = local.gh_repo
+  }
 }
 
 data "azurerm_client_config" "current" {}
@@ -30,6 +35,7 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_resource_group" "rg" {
   name     = "rg-quackbank-trackavailability"
   location = var.location
+  tags = local.tags
 }
 
 resource "random_string" "unique" {
@@ -54,14 +60,14 @@ module "func" {
   plan_tier = "ElasticPremium"
   plan_size = "EP1"
 
-  linux_fx_version = "DOCKER|${azurerm_container_registry.test.login_server}/qbtrackavailability:${var.image_version}"
+  linux_fx_version = "DOCKER|ghcr.io/implodingduck/quackers-bank-trackavailability:${var.image_version}"
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "AVAILABILITY_APPINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.appinsights.connection_string
     "REGION_NAME" = azurerm_resource_group.rg.location
-    "DOCKER_REGISTRY_SERVER_URL" = azurerm_container_registry.test.login_server
-    "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.test.admin_username
-    "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.test.admin_password
+    #"DOCKER_REGISTRY_SERVER_URL" = azurerm_container_registry.test.login_server
+    #"DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.test.admin_username
+    #"DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.test.admin_password
     "BASE_URL" = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=BASEURL)"
     "TEST_EMAIL" = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=TESTUSER)"
     "TEST_PASSWORD" = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=TESTPASSWORD)"
