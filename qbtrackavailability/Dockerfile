@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y \
 	fonts-noto \
 	fonts-freefont-ttf \
 	--no-install-recommends \
-    && curl -sO http://chromedriver.storage.googleapis.com/94.0.4606.41/chromedriver_linux64.zip \
+    && curl -sO http://chromedriver.storage.googleapis.com/102.0.5005.27/chromedriver_linux64.zip \
     && unzip chromedriver_linux64.zip \
     && mv chromedriver /usr/bin \
 	&& apt-get purge --auto-remove -y curl gnupg zip \
