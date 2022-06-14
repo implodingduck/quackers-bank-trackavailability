@@ -27,81 +27,81 @@ namespace qbtrackavailability
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             if (telemetryClient == null) 
-            { 
-                // Initializing a telemetry configuration for Application Insights based on connection string 
+         { 
+                // Initializing a telemetry configuration for Application Insights based on connection string 
 
-                var telemetryConfiguration = new TelemetryConfiguration(); 
-                telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("AVAILABILITY_APPINSIGHTS_CONNECTION_STRING"); 
-                telemetryConfiguration.TelemetryChannel = new InMemoryChannel(); 
-                telemetryClient = new TelemetryClient(telemetryConfiguration); 
-            } 
+        var telemetryConfiguration = new TelemetryConfiguration(); 
+         telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("AVAILABILITY_APPINSIGHTS_CONNECTION_STRING"); 
+         telemetryConfiguration.TelemetryChannel = new InMemoryChannel(); 
+         telemetryClient = new TelemetryClient(telemetryConfiguration); 
+        } 
             log.LogInformation($"Telemetry Client has been initialized");
-            string testName = executionContext.FunctionName; 
+        string testName = executionContext.FunctionName; 
             log.LogInformation($"testName={testName}");
-            string location = Environment.GetEnvironmentVariable("REGION_NAME");
+         string location = Environment.GetEnvironmentVariable("REGION_NAME");
             log.LogInformation($"location={location}");
-            var availability = new AvailabilityTelemetry 
-            { 
-                Name = testName, 
+        var availability = new AvailabilityTelemetry 
+         { 
+        Name = testName, 
 
-                RunLocation = location, 
+                RunLocation = location, 
 
-                Success = false, 
-            }; 
+                Success = false, 
+            }; 
             log.LogInformation($"AvailabilityTelemetry has been set");
             
-            availability.Context.Operation.ParentId = Activity.Current.SpanId.ToString();
+            availability.Context.Operation.ParentId = Activity.Current.SpanId.ToString();
             log.LogInformation($"ParentId={availability.Context.Operation.ParentId}");
-            availability.Context.Operation.Id = Activity.Current.RootId; 
+            availability.Context.Operation.Id = Activity.Current.RootId; 
             log.LogInformation($"OperationId={availability.Context.Operation.Id}");
-            var stopwatch = new Stopwatch(); 
-            stopwatch.Start(); 
+            var stopwatch = new Stopwatch(); 
+            stopwatch.Start(); 
             log.LogInformation($"StopWatch has started");
-            try 
-            { 
-                var activity = new Activity("AvailabilityContext");
+            try 
+            { 
+                var activity = new Activity("AvailabilityContext");
                 if (activity != null)
-                { 
-                    activity.Start(); 
-                    availability.Id = Activity.Current.SpanId.ToString(); 
+                { 
+                    activity.Start(); 
+                    availability.Id = Activity.Current.SpanId.ToString(); 
                     var chromeOptions = new ChromeOptions();
                     chromeOptions.AddArgument("--headless");
                     chromeOptions.AddArgument("--disable-gpu");
                     chromeOptions.AddArgument("--no-sandbox");
                     using (var driver = new ChromeDriver(chromeOptions))
                     {
-                        // Run business logic 
-                        await RunAvailabilityTestAsync(log, driver); 
+                        // Run business logic 
+                        await RunAvailabilityTestAsync(log, driver); 
                     }
-                } 
-                availability.Success = true; 
-            } 
+                } 
+                availability.Success = true; 
+            } 
 
-            catch (Exception ex) 
-            { 
-                availability.Message = ex.Message; 
-                throw; 
-            } 
+            catch (Exception ex) 
+            { 
+                availability.Message = ex.Message; 
+                throw; 
+            } 
 
-            finally 
-            { 
-                stopwatch.Stop(); 
+            finally 
+            { 
+                stopwatch.Stop(); 
                 log.LogInformation($"StopWatch has stopped");
-                availability.Duration = stopwatch.Elapsed; 
-                availability.Timestamp = DateTimeOffset.UtcNow; 
-                telemetryClient.TrackAvailability(availability); 
-                telemetryClient.Flush(); 
-            } 
+                availability.Duration = stopwatch.Elapsed; 
+                availability.Timestamp = DateTimeOffset.UtcNow; 
+                telemetryClient.TrackAvailability(availability); 
+                telemetryClient.Flush(); 
+            } 
         }
 
         public async static Task RunAvailabilityTestAsync(ILogger log, ChromeDriver driver) 
         { 
             log.LogInformation($"Attempting to run Availability Test");
-//             using (var httpClient = new HttpClient()) 
-//             { 
-//                 // TODO: Replace with your business logic 
-//                 await httpClient.GetStringAsync(""); 
-//             } 
+//             using (var httpClient = new HttpClient()) 
+//             { 
+//                 // TODO: Replace with your business logic 
+//                 await httpClient.GetStringAsync(""); 
+//             } 
             
             log.LogInformation("Pre get EnvironmentVariable");
             //Navigate to DotNet website
