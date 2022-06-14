@@ -135,7 +135,7 @@ namespace qbtrackavailability
             //fill out the form
             var testemail = Environment.GetEnvironmentVariable("TEST_EMAIL");
             var testpassword = Environment.GetEnvironmentVariable("TEST_PASSWORD");
-            driver.FindElement(By.Id("email")).SendKeys(testemail);
+            driver.FindElement(By.Id("signInName")).SendKeys(testemail);
             IWebElement passwordEle = driver.FindElement(By.Id("password"));
             passwordEle.SendKeys(testpassword);
             passwordEle.SendKeys(Keys.Enter);
