@@ -62,6 +62,7 @@ module "func" {
 
   linux_fx_version = "DOCKER|ghcr.io/implodingduck/quackers-bank-trackavailability:${var.image_version}"
   app_settings = {
+    "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "AVAILABILITY_APPINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.appinsights.connection_string
     "REGION_NAME" = azurerm_resource_group.rg.location
