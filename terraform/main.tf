@@ -46,7 +46,7 @@ resource "random_string" "unique" {
 
 data "azurerm_application_insights" "appinsights" {
   name                = var.app_insights_name
-  resource_group_name = "rg-quackbank-demo"
+  resource_group_name = var.app_insights_rg
 }
 
 module "func" {

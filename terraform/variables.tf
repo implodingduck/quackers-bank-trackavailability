@@ -29,6 +29,10 @@ variable "app_insights_name" {
   type = string
 }
 
+variable "app_insights_rg" {
+  type = string
+}
+
 variable "image_version" {
   type = string
   default = "latest"

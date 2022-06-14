@@ -96,6 +96,7 @@ jobs:
 
 
   terraform:
+    needs: docker
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -143,7 +144,9 @@ jobs:
           TF_VAR_key: ${{ github.repository }}.tfstate
           TF_VAR_gh_repo: ${{ github.repository }}
           TF_VAR_app_insights_name: ${{ secrets.APP_INSIGHTS_NAME}}
+          TF_VAR_app_insights_rg: ${{ secrets.APP_INSIGHTS_RG }}
           TF_VAR_image_version: ${{ github.run_id }}
+          
         run: |
             echo "starting..."
             cd terraform
@@ -162,6 +165,10 @@ jobs:
           TF_VAR_subscription_id: ${{ steps.kvAction.outputs.subscription-id }}
           TF_VAR_key: ${{ github.repository }}.tfstate
           TF_VAR_gh_repo: ${{ github.repository }}
+          TF_VAR_app_insights_name: ${{ secrets.APP_INSIGHTS_NAME}}
+          TF_VAR_app_insights_rg: ${{ secrets.APP_INSIGHTS_RG }}
+          TF_VAR_image_version: ${{ github.run_id }}
+          
         run: |
             echo "starting..."
             cd terraform
