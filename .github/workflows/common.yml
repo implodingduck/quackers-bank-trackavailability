@@ -96,7 +96,9 @@ jobs:
 
 
   terraform:
-    needs: docker
+    #commenting out needs so its in parallel
+    #needs: docker
+    
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -145,7 +147,7 @@ jobs:
           TF_VAR_gh_repo: ${{ github.repository }}
           TF_VAR_app_insights_name: ${{ secrets.APP_INSIGHTS_NAME}}
           TF_VAR_app_insights_rg: ${{ secrets.APP_INSIGHTS_RG }}
-          TF_VAR_image_version: ${{ github.run_id }}
+          TF_VAR_image_version: latest #${{ github.run_id }}
           
         run: |
             echo "starting..."
@@ -167,8 +169,8 @@ jobs:
           TF_VAR_gh_repo: ${{ github.repository }}
           TF_VAR_app_insights_name: ${{ secrets.APP_INSIGHTS_NAME}}
           TF_VAR_app_insights_rg: ${{ secrets.APP_INSIGHTS_RG }}
-          TF_VAR_image_version: ${{ github.run_id }}
-          
+          TF_VAR_image_version: latest #${{ github.run_id }}
+
         run: |
             echo "starting..."
             cd terraform
