@@ -138,7 +138,9 @@ namespace qbtrackavailability
             driver.FindElement(By.Id("signInName")).SendKeys(testemail);
             IWebElement passwordEle = driver.FindElement(By.Id("password"));
             passwordEle.SendKeys(testpassword);
-            passwordEle.SendKeys(Keys.Enter);
+            IWebElement nextEle = driver.FindElement(By.Id("next"));
+            nextEle.Click();
+            //passwordEle.SendKeys(Keys.Enter);
             
             //Wait for login to complete
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".navbar-toggler.collapsed")));
