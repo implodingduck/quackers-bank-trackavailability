@@ -65,7 +65,7 @@ namespace qbtrackavailability
                     activity.Start(); 
                     availability.Id = Activity.Current.SpanId.ToString(); 
                     var chromeOptions = new ChromeOptions();
-                    chromeOptions.AddArgument("--headless");
+                    chromeOptions.AddArgument("--window-size=1920,1080");
                     chromeOptions.AddArgument("--disable-gpu");
                     chromeOptions.AddArgument("--no-sandbox");
                     using (var driver = new ChromeDriver(chromeOptions))
@@ -107,10 +107,9 @@ namespace qbtrackavailability
             //Navigate to DotNet website
             var baseurl = Environment.GetEnvironmentVariable("BASE_URL");
             log.LogInformation($"Going to {baseurl}");
-            //var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
 
             //Navigate to base website
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
             driver.Navigate().GoToUrl(baseurl);
             IReadOnlyList<IWebElement> boxEles = driver.FindElements(By.CssSelector(".box"));
             log.LogInformation(boxEles.ElementAt(0).Text);
@@ -121,7 +120,7 @@ namespace qbtrackavailability
 
             //Click on the login link
             var loginEleXpath = By.XPath("//a[contains(text(),'Login')]");
-            //wait.Until(ExpectedConditions.ElementIsVisible(loginEleXpath));
+            wait.Until(ExpectedConditions.ElementIsVisible(loginEleXpath));
             IWebElement loginEle = driver.FindElement(loginEleXpath);
             log.LogInformation("Login button");
             log.LogInformation($"Login Displayed: {loginEle.Displayed}");
@@ -129,7 +128,7 @@ namespace qbtrackavailability
             loginEle.Click();
 
             //Wait for the B2C login page
-            //wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".intro")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".intro")));
             IReadOnlyList<IWebElement> introEles = driver.FindElements(By.CssSelector(".intro"));
             log.LogInformation(introEles.ElementAt(0).Text);
             
@@ -144,21 +143,24 @@ namespace qbtrackavailability
             //passwordEle.SendKeys(Keys.Enter);
             
             //Wait for login to complete
-            //wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".navbar-toggler.collapsed")));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".navbar-brand")));
             log.LogInformation("Login has completed");
-            navbarToggler = driver.FindElement(By.CssSelector(".navbar-toggler.collapsed"));
-            navbarToggler.Click();
+            // wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".navbar-toggler.collapsed")));
+            // log.LogInformation("Login has completed");
+            // navbarToggler = driver.FindElement(By.CssSelector(".navbar-toggler.collapsed"));
+            // navbarToggler.Click();
 
             //Go to accounts
             var accountEleXpath = By.XPath("//a[contains(text(),'Accounts')]");
-            //wait.Until(ExpectedConditions.ElementIsVisible(accountEleXpath));
+            wait.Until(ExpectedConditions.ElementIsVisible(accountEleXpath));
             IWebElement accountEle = driver.FindElement(accountEleXpath);
             accountEle.Click();
             log.LogInformation("Clicking on Accounts");
 
-            //wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h3[contains(text(),'Checking')]")));
-            IWebElement accountsEle = driver.FindElement(By.XPath("//h3[contains(text(),'Checking')]"));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h3[contains(text(),'Checking')]")));
             log.LogInformation("Accounts are visible");
+
+
             
         } 
     }
