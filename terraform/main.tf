@@ -56,9 +56,9 @@ module "func" {
   resource_group_location = azurerm_resource_group.rg.location
   working_dir = "qbtrackavailability"
   publish = 0
-  asp_kind = "elastic"
-  plan_tier = "ElasticPremium"
-  plan_size = "EP1"
+  asp_kind = "Linux"
+  plan_tier = "Basic"
+  plan_size = "B1"
 
   linux_fx_version = "DOCKER|ghcr.io/implodingduck/quackers-bank-trackavailability:${var.image_version}"
   app_settings = {
