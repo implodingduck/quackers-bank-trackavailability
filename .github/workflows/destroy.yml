@@ -67,7 +67,7 @@ jobs:
             cd terraform
             ./env_setup.sh
             terraform init --backend-config=backend.tfvars
-            terraform plan -out theplan
+            #terraform plan -out theplan
 
       - name: apply terraform
         env:
