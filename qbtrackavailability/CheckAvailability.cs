@@ -66,7 +66,12 @@ namespace qbtrackavailability
                     availability.Id = Activity.Current.SpanId.ToString(); 
                     var chromeOptions = new ChromeOptions();
                     chromeOptions.AddArgument("--window-size=1920,1080");
-                    chromeOptions.AddArgument("--disable-gpu");
+                    // https://stackoverflow.com/questions/50642308/webdriverexception-unknown-error-devtoolsactiveport-file-doesnt-exist-while-t
+                    chromeOptions.AddArguments("start-maximized"); // open Browser in maximized mode
+                    chromeOptions.AddArguments("disable-infobars"); // disabling infobars
+                    chromeOptions.AddArguments("--disable-extensions"); // disabling extensions
+                    chromeOptions.AddArguments("--disable-gpu"); // applicable to windows os only
+                    chromeOptions.AddArguments("--disable-dev-shm-usage"); // overcome limited resource problems
                     chromeOptions.AddArgument("--no-sandbox");
                     using (var driver = new ChromeDriver(chromeOptions))
                     {
