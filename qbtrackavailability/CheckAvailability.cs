@@ -168,7 +168,7 @@ namespace qbtrackavailability
                 accountEle.Click();
                 log.LogInformation("Clicking on Accounts");
             }catch(Exception ex){
-                log.LogInformation(ex);
+                log.LogInformation(ex.Message);
                 throw new Exception("Unable to click on Accounts link", ex);
             }
             
@@ -176,7 +176,7 @@ namespace qbtrackavailability
                 wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h3[contains(text(),'Checking')]")));
                 log.LogInformation("Accounts are visible");
             }catch(Exception ex){
-                log.LogInformation(ex);
+                log.LogInformation(ex.Message);
                 throw new Exception("Unable to view Account details", ex);
             }
             
