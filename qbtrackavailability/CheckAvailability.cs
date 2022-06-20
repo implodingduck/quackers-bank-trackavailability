@@ -67,10 +67,10 @@ namespace qbtrackavailability
                     var chromeOptions = new ChromeOptions();
                     chromeOptions.AddArgument("--no-sandbox");
                     chromeOptions.AddArgument("--headless");
-                    chromeOptions.AddArgument("--window-size=1920,1080");
+                    //chromeOptions.AddArgument("--window-size=1920,1080");
                     // https://stackoverflow.com/questions/50642308/webdriverexception-unknown-error-devtoolsactiveport-file-doesnt-exist-while-t
-                    chromeOptions.AddArguments("start-maximized"); // open Browser in maximized mode
-                    chromeOptions.AddArguments("disable-infobars"); // disabling infobars
+                    //chromeOptions.AddArguments("start-maximized"); // open Browser in maximized mode
+                    //chromeOptions.AddArguments("disable-infobars"); // disabling infobars
                     chromeOptions.AddArguments("--disable-extensions"); // disabling extensions
                     chromeOptions.AddArguments("--disable-gpu"); // applicable to windows os only
                     chromeOptions.AddArguments("--disable-dev-shm-usage"); // overcome limited resource problems
@@ -152,20 +152,34 @@ namespace qbtrackavailability
             //Wait for login to complete
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".navbar-brand")));
             log.LogInformation("Login has completed");
-            // wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".navbar-toggler.collapsed")));
-            // log.LogInformation("Login has completed");
-            // navbarToggler = driver.FindElement(By.CssSelector(".navbar-toggler.collapsed"));
-            // navbarToggler.Click();
-
-            //Go to accounts
-            var accountEleXpath = By.XPath("//a[contains(text(),'Accounts')]");
-            wait.Until(ExpectedConditions.ElementIsVisible(accountEleXpath));
-            IWebElement accountEle = driver.FindElement(accountEleXpath);
-            accountEle.Click();
-            log.LogInformation("Clicking on Accounts");
-
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h3[contains(text(),'Checking')]")));
-            log.LogInformation("Accounts are visible");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".navbar-toggler.collapsed")));
+            try{
+                navbarToggler = driver.FindElement(By.CssSelector(".navbar-toggler.collapsed"));
+                navbarToggler.Click();
+            }catch(Exception ex){
+                log.LogInformation("Failed to click on the toggle bar");
+            }
+            
+            try{
+                //Go to accounts
+                var accountEleXpath = By.XPath("//a[contains(text(),'Accounts')]");
+                wait.Until(ExpectedConditions.ElementIsVisible(accountEleXpath));
+                IWebElement accountEle = driver.FindElement(accountEleXpath);
+                accountEle.Click();
+                log.LogInformation("Clicking on Accounts");
+            }catch(Exception ex){
+                log.LogInformation(ex);
+                throw new Exception("Unable to click on Accounts link", ex);
+            }
+            
+            try{
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h3[contains(text(),'Checking')]")));
+                log.LogInformation("Accounts are visible");
+            }catch(Exception ex){
+                log.LogInformation(ex);
+                throw new Exception("Unable to view Account details", ex);
+            }
+            
 
 
             
