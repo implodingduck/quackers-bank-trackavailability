@@ -65,15 +65,9 @@ namespace qbtrackavailability
                     activity.Start(); 
                     availability.Id = Activity.Current.SpanId.ToString(); 
                     var chromeOptions = new ChromeOptions();
-                    chromeOptions.AddArgument("--no-sandbox");
                     chromeOptions.AddArgument("--headless");
-                    //chromeOptions.AddArgument("--window-size=1920,1080");
-                    // https://stackoverflow.com/questions/50642308/webdriverexception-unknown-error-devtoolsactiveport-file-doesnt-exist-while-t
-                    //chromeOptions.AddArguments("start-maximized"); // open Browser in maximized mode
-                    //chromeOptions.AddArguments("disable-infobars"); // disabling infobars
-                    chromeOptions.AddArguments("--disable-extensions"); // disabling extensions
-                    chromeOptions.AddArguments("--disable-gpu"); // applicable to windows os only
-                    chromeOptions.AddArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+                    chromeOptions.AddArgument("--disable-gpu");
+                    chromeOptions.AddArgument("--no-sandbox");
                     
                     using (var driver = new ChromeDriver(chromeOptions))
                     {
@@ -122,8 +116,13 @@ namespace qbtrackavailability
             log.LogInformation(boxEles.ElementAt(0).Text);
 
             //Click on the navbar toggle
-            IWebElement navbarToggler = driver.FindElement(By.CssSelector(".navbar-toggler.collapsed"));
-            navbarToggler.Click();
+            IWebElement navbarToggler;
+            try{
+                navbarToggler = driver.FindElement(By.CssSelector(".navbar-toggler.collapsed"));
+                navbarToggler.Click();
+            }catch(Exception ex){
+                log.LogInformation("Failed to click on the toggle bar");
+            }
 
             //Click on the login link
             var loginEleXpath = By.XPath("//a[contains(text(),'Login')]");
