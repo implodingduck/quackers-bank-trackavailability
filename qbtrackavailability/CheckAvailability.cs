@@ -159,8 +159,6 @@ namespace qbtrackavailability
             //wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h3[contains(text(),'Checking')]")));
             IWebElement accountsEle = driver.FindElement(By.XPath("//h3[contains(text(),'Checking')]"));
             log.LogInformation("Accounts are visible");
-
-
             
         } 
     }
