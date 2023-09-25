@@ -6,8 +6,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.15.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="Selenium.Support" Version="3.141.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.13.0" />
+    <PackageReference Include="Selenium.Support" Version="4.13.0" />
+    <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
