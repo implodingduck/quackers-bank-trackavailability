@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
 	&& curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
 	&& apt-get update && apt-get install -y \
-	google-chrome-stable \
+	google-chrome-stable=102.0.5005.115-1 \
 	fontconfig \
 	fonts-ipafont-gothic \
 	fonts-wqy-zenhei \
