@@ -139,12 +139,12 @@ resource "azurerm_key_vault_access_policy" "as" {
   object_id = module.func.identity_principal_id
   
   key_permissions = [
-    "get",
+    "Get",
   ]
 
   secret_permissions = [
-    "get",
-    "list"
+    "Get",
+    "List"
   ]
   
 }
