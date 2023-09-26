@@ -7,3 +7,5 @@ unzip chrome-linux64.zip
 mv chrome-linux64 /usr/bin
 apt-get purge --auto-remove -y curl gnupg zip
 rm -rf /var/lib/apt/lists/*
+curl -sOL https://github.com/SeleniumHQ/selenium/raw/trunk/common/manager/linux/selenium-manager
+mv selenium-manager  /azure-functions-host/selenium-manager/linux/selenium-manager
