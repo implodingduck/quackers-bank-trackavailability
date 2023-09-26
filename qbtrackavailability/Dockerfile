@@ -40,7 +40,7 @@ RUN curl -sO https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEAS
     && echo $CHROME_VERSION \
     && curl -sO https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROME_VERSION}/linux64/chromedriver-linux64.zip \
     && unzip chromedriver-linux64.zip \
-    && mv chromedriver-linux64 /usr/bin \
+    && mv chromedriver-linux64/chromedriver /usr/bin \
     && apt-get purge --auto-remove -y curl gnupg zip \
     && rm -rf /var/lib/apt/lists/*
 
