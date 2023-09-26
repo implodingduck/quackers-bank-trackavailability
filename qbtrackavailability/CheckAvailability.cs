@@ -17,13 +17,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-using SeleniumExtras.WaitHelpers;
-
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
-
-
-
 namespace qbtrackavailability
 {
     public static class CheckAvailability
@@ -71,9 +64,6 @@ namespace qbtrackavailability
                 { 
                     activity.Start(); 
                     availability.Id = Activity.Current.SpanId.ToString(); 
-
-                    new DriverManager().SetUpDriver(new ChromeConfig());
-
                     var chromeOptions = new ChromeOptions();
                     chromeOptions.AddArgument("--headless");
                     chromeOptions.AddArgument("--disable-gpu");
