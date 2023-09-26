@@ -104,15 +104,9 @@ namespace qbtrackavailability
 
         public async static Task RunAvailabilityTestAsync(ILogger log, ChromeDriver driver) 
         { 
-            log.LogInformation($"Attempting to run Availability Test");
-//             using (var httpClient = new HttpClient()) 
-//             { 
-//                 // TODO: Replace with your business logic 
-//                 await httpClient.GetStringAsync(""); 
-//             } 
-            
+            log.LogInformation($"Attempting to run Availability Test");          
             log.LogInformation("Pre get EnvironmentVariable");
-            //Navigate to DotNet website
+     
             var baseurl = Environment.GetEnvironmentVariable("BASE_URL");
             log.LogInformation($"Going to {baseurl}");
             
@@ -122,7 +116,12 @@ namespace qbtrackavailability
             using HttpResponseMessage response = await httpClient.GetAsync("health");
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            log.LogInformation($"Going to {jsonResponse}");
+            log.LogInformation($"Response: {jsonResponse}");
+            JsonNode responseNode = JsonNode.Parse(jsonResponse)!;
+            log.LogInformation($"ResponseNode Id: {(int)responseNode["id"]}");
+            if ( (int)responseNode["id"] != 200){
+                throw new Exception("Bad ID received...")
+            }
             
             
         } 
