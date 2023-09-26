@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics; 
+
 using Microsoft.ApplicationInsights; 
 using Microsoft.ApplicationInsights.Channel; 
 using Microsoft.ApplicationInsights.DataContracts; 
@@ -117,10 +118,9 @@ namespace qbtrackavailability
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             log.LogInformation($"Response: {jsonResponse}");
-            JsonNode responseNode = JsonNode.Parse(jsonResponse)!;
-            log.LogInformation($"ResponseNode Id: {(int)responseNode["id"]}");
-            if ( (int)responseNode["id"] != 200){
-                throw new Exception("Bad ID received...")
+            
+            if (!jsonResponse.Contains("\"id\":200")){
+                throw new Exception("Bad ID received...");
             }
             
             
