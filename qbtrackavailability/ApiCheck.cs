@@ -9,43 +9,52 @@ using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility; 
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+
 namespace qbtrackavailability
 {
-    public static class ApiCheck 
+    public static class ApiCheck
     {
         private static TelemetryClient telemetryClient; 
         [FunctionName("ApiCheck")]
-        public static async Task Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log,  ExecutionContext executionContext)
+        //public static async Task Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log,  ExecutionContext executionContext)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            HttpRequest req, ILogger log,  ExecutionContext executionContext)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             if (telemetryClient == null) 
-            { 
+         { 
                 // Initializing a telemetry configuration for Application Insights based on connection string 
 
-                var telemetryConfiguration = new TelemetryConfiguration(); 
-                telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("AVAILABILITY_APPINSIGHTS_CONNECTION_STRING"); 
-                telemetryConfiguration.TelemetryChannel = new InMemoryChannel(); 
-                telemetryClient = new TelemetryClient(telemetryConfiguration); 
-            } 
+        var telemetryConfiguration = new TelemetryConfiguration(); 
+         telemetryConfiguration.ConnectionString = Environment.GetEnvironmentVariable("AVAILABILITY_APPINSIGHTS_CONNECTION_STRING"); 
+         telemetryConfiguration.TelemetryChannel = new InMemoryChannel(); 
+         telemetryClient = new TelemetryClient(telemetryConfiguration); 
+        } 
             log.LogInformation($"Telemetry Client has been initialized");
-            string testName = executionContext.FunctionName; 
+        string testName = executionContext.FunctionName; 
             log.LogInformation($"testName={testName}");
-            string location = Environment.GetEnvironmentVariable("REGION_NAME");
+         string location = Environment.GetEnvironmentVariable("REGION_NAME");
             log.LogInformation($"location={location}");
-            var availability = new AvailabilityTelemetry 
-            { 
-                Name = testName, 
+        var availability = new AvailabilityTelemetry 
+         { 
+        Name = testName, 
 
                 RunLocation = location, 
 
                 Success = false, 
             }; 
             log.LogInformation($"AvailabilityTelemetry has been set");
-
+            
             availability.Context.Operation.ParentId = Activity.Current.SpanId.ToString();
             log.LogInformation($"ParentId={availability.Context.Operation.ParentId}");
             availability.Context.Operation.Id = Activity.Current.RootId; 
@@ -60,8 +69,17 @@ namespace qbtrackavailability
                 { 
                     activity.Start(); 
                     availability.Id = Activity.Current.SpanId.ToString(); 
-                    await RunAvailabilityTestAsync(log);
-                }
+                    var chromeOptions = new ChromeOptions();
+                    chromeOptions.AddArgument("--headless");
+                    chromeOptions.AddArgument("--disable-gpu");
+                    chromeOptions.AddArgument("--no-sandbox");
+                    
+                    using (var driver = new ChromeDriver(chromeOptions))
+                    {
+                        // Run business logic 
+                        await RunAvailabilityTestAsync(log, driver); 
+                    }
+                } 
                 availability.Success = true; 
             } 
 
@@ -79,28 +97,34 @@ namespace qbtrackavailability
                 availability.Timestamp = DateTimeOffset.UtcNow; 
                 telemetryClient.TrackAvailability(availability); 
                 telemetryClient.Flush(); 
-            } 
+                
+            }
+            return (ActionResult)new OkObjectResult($"Work Complete!");
         }
-        public async static Task RunAvailabilityTestAsync(ILogger log) 
+
+        public async static Task RunAvailabilityTestAsync(ILogger log, ChromeDriver driver) 
         { 
             log.LogInformation($"Attempting to run Availability Test");
+//             using (var httpClient = new HttpClient()) 
+//             { 
+//                 // TODO: Replace with your business logic 
+//                 await httpClient.GetStringAsync(""); 
+//             } 
+            
+            log.LogInformation("Pre get EnvironmentVariable");
+            //Navigate to DotNet website
             var baseurl = Environment.GetEnvironmentVariable("BASE_URL");
-            private static HttpClient httpClient = new()
-            {
-                BaseAddress = new Uri(baseurl),
+            log.LogInformation($"Going to {baseurl}");
+            
+            var httpClient = new HttpClient(){
+                BaseAddress = new Uri(baseurl)
             };
             using HttpResponseMessage response = await httpClient.GetAsync("health");
-            response.EnsureSuccessStatusCode()
-                .WriteRequestToConsole();
-    
+
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            log.LogInformation($"JSON Response: {jsonResponse}");
-            JsonNode responseNode = JsonNode.Parse(jsonResponse)!;
-            int responseId = (int)responseNode!["id"]!;
-            if responseId != 200{
-                throw new Exception("API response does not match value")
-            }
+            log.LogInformation($"Going to {jsonResponse}");
             
-        }
+            
+        } 
     }
 }
