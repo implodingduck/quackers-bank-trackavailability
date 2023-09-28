@@ -27,9 +27,10 @@ namespace qbtrackavailability
     {
         private static TelemetryClient telemetryClient; 
         [FunctionName("ApiCheck")]
-        //public static async Task Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log,  ExecutionContext executionContext)
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest req, ILogger log,  ExecutionContext executionContext)
+        
+        // public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+        //     HttpRequest req, ILogger log,  ExecutionContext executionContext)
+        public static async Task Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log,  ExecutionContext executionContext)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             if (telemetryClient == null) 
