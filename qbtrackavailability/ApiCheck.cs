@@ -101,7 +101,7 @@ namespace qbtrackavailability
                 telemetryClient.Flush(); 
                 
             }
-            return (ActionResult)new OkObjectResult($"Work Complete!");
+            //return (ActionResult)new OkObjectResult($"Work Complete!");
         }
 
         public async static Task RunAvailabilityTestAsync(ILogger log, ChromeDriver driver) 
