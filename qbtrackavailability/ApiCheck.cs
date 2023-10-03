@@ -71,16 +71,10 @@ namespace qbtrackavailability
                 { 
                     activity.Start(); 
                     availability.Id = Activity.Current.SpanId.ToString(); 
-                    var chromeOptions = new ChromeOptions();
-                    chromeOptions.AddArgument("--headless");
-                    chromeOptions.AddArgument("--disable-gpu");
-                    chromeOptions.AddArgument("--no-sandbox");
                     
-                    using (var driver = new ChromeDriver(chromeOptions))
-                    {
-                        // Run business logic 
-                        await RunAvailabilityTestAsync(log, driver); 
-                    }
+                    // Run business logic 
+                    await RunAvailabilityTestAsync(log); 
+                    
                 } 
                 availability.Success = true; 
             } 
@@ -104,7 +98,7 @@ namespace qbtrackavailability
             //return (ActionResult)new OkObjectResult($"Work Complete!");
         }
 
-        public async static Task RunAvailabilityTestAsync(ILogger log, ChromeDriver driver) 
+        public async static Task RunAvailabilityTestAsync(ILogger log) 
         { 
             log.LogInformation($"Attempting to run Availability Test");          
             log.LogInformation("Pre get EnvironmentVariable");
